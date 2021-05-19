@@ -7,7 +7,7 @@ abstract class Entregas
 
 class Correios extends Entregas 
 {
-    public function ligentregaSucessoar()
+    public function entregaSucesso()
     {
         echo 'Correios entregou';
     } 
