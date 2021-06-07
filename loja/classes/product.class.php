@@ -1,6 +1,6 @@
 <?php
 
-require_once 'conexao.class.php';
+require_once 'connection.class.php';
 
 class Produto extends Banco
 {
@@ -10,7 +10,6 @@ class Produto extends Banco
     protected $nome;
     protected $preco;
     protected $quantidade;
-    protected $imagem;
     protected $categoria;
 
 
@@ -24,24 +23,22 @@ class Produto extends Banco
         $this->nome = $dados[0] ?? null;
         $this->preco = $dados[1] ?? null;
         $this->quantidade = $dados[2] ?? null;
-        $this->imagem = $dados[3] ?? null;
-        $this->categoria = $dados[4] ?? null;
+        $this->categoria = $dados[3] ?? null;
 
         return $this->inserir();
     }
     public function inserir()
     {
 
-        $stmt = $this->dns->prepare('INSERT INTO produtos (nome, preco, quantidade, imagem, categoria) VALUES (:nome, :preco, :quantidade, :imagem, :categoria)');
+        $stmt = $this->dns->prepare('INSERT INTO produtos (nome, preco, quantidade, categoria) VALUES (:nome, :preco, :quantidade, :categoria)');
 
-        if ($stmt->execute([':nome' => $this->nome, ':preco' => $this->preco, ':quantidade' => $this->quantidade, ':imagem' => $this->imagem, ':categoria' => $this->categoria])) {
+        if ($stmt->execute([':nome' => $this->nome, ':preco' => $this->preco, ':quantidade' => $this->quantidade, ':categoria' => $this->categoria])) {
 
             return true;
         }
     }
-}
-class MostrarConteudo extends Produto
-{
+//class MostrarConteudo extends Produto
+
     public function getId($se)
     {
 
@@ -54,16 +51,16 @@ class MostrarConteudo extends Produto
     public function apagar($id)
     {
 
-        $this->dns->query("DELETE FROM produtos WHERE idProduto ='{$id}'");
-    }
-
-    public function mostrar()
-    {
-
-        $stmt = $this->dns->prepare('SELECT * FROM produtos');
-
+        $stmt =$this->dns->query("DELETE FROM produtos WHERE idProduto ='{$id}'");
         $stmt->execute();
-
-        return $stmt->fetchAll();
     }
-}
+
+    public function getGeral()
+    {
+  
+        $stmt = $this->dns->prepare("SELECT * FROM produtos ");
+        $stmt->execute();
+        $s = $stmt->fetchAll();
+        return $s;
+    }
+  }

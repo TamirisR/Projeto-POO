@@ -1,6 +1,6 @@
 <?php
 
-require_once 'conexao.class.php';
+require_once 'connection.class.php';
 
 Class Cliente extends Banco  {
 
@@ -11,6 +11,7 @@ Class Cliente extends Banco  {
     protected $senha;
     protected $endereco;
     protected $senhaDoCartao;
+    protected $categoria;
 
 
     public function __construct()
@@ -24,6 +25,7 @@ Class Cliente extends Banco  {
         $this->senha = $dados[2] ?? null;
         $this->endereco = $dados[3] ?? null;
         $this->senhaDoCartao = $dados[4] ?? null;
+        $this->categoria = $dados[5] ?? null;
 
     
         return $this->inserir();
@@ -32,9 +34,9 @@ Class Cliente extends Banco  {
     }
     public function inserir(){
 
-        $stmt = $this->dns->prepare('INSERT INTO cliente (nome, email, senha, endereco, senhaDoCartao) VALUES (:nome, :email, :senha, :endereco, :senhaDoCartao)');
+        $stmt = $this->dns->prepare('INSERT INTO cliente (nome, email, senha, endereco, senhaDoCartao, categoria) VALUES (:nome, :email, :senha, :endereco, :senhaDoCartao, :categoria)');
     
-            if( $stmt->execute([':nome' => $this->nome,':email' => $this->email,':senha' => $this->senha, ':endereco' => $this->endereco, ':senhaDoCartao' => $this->senhaDoCartao ])){
+            if( $stmt->execute([':nome' => $this->nome,':email' => $this->email,':senha' => $this->senha, ':endereco' => $this->endereco, ':senhaDoCartao' => $this->senhaDoCartao, ':categoria' => $this->categoria  ])){
     
                 return true;
             }
@@ -48,4 +50,17 @@ Class Cliente extends Banco  {
             $this->id=$s[0][0];
             
     }
+    public function getGeral()
+    {
+
+        $stmt = $this->dns->prepare("SELECT * FROM cliente ");
+        $stmt->execute();
+        $s = $stmt->fetchAll();
+        return $s;
+    }
+    public function apagar($id){
+
+        $stmt = $this->dns->query("DELETE FROM cliente WHERE idcliente ='{$id}'");
+        $stmt->execute();
+     }
 }

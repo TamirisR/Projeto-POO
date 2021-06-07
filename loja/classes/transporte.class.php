@@ -1,4 +1,5 @@
-<?php
+
+<?php /*
 abstract class Entregas 
 {
     public function entregaErrada(){}
@@ -36,4 +37,6 @@ class RotaEntrega
         $entregar ->entregaSucesso();
         $entregar ->entregaErrada();
     }
-}
+} 
+?>
+*/

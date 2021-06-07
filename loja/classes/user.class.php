@@ -1,6 +1,6 @@
 <?php
 
-require_once 'conexao.class.php';
+require_once 'connection.class.php';
 
 Class Usuario extends Banco  {
     
@@ -44,6 +44,19 @@ public function getId($em, $se){
         
 }
 
+public function getGeral(){
+          
+    $stmt = $this->dns->prepare("SELECT * FROM usuario ");
+    $stmt->execute();
+    $s=$stmt->fetchAll();
+    return $s;
 }
-$a = new Usuario;
+public function apagar($id){
+
+    $stmt = $this->dns->query("DELETE FROM usuario WHERE idusuario ='{$id}'");
+    $stmt->execute();
+ }
+
+}
+//$a = new Usuario;
 
